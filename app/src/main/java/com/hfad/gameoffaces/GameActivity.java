@@ -26,12 +26,10 @@ import java.util.Set;
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
     int _score = 0;
-    int _seconds = 5;
     Button _answerButton;
     int _imageId;
     String _answer;
-    boolean _running = true;
-    CountDownTimer _myTimer;
+    boolean _isrunning = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +48,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void createQuestion(int score) {
+        timer.start();
         TextView scoreBoard = (TextView) findViewById(R.id.score);
         scoreBoard.setText("Score: " + Integer.toString(score));
         HashMap<String, Integer> data = ImageData.Data();
@@ -126,10 +125,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void runTimer() {
-        final TextView timeView = (TextView) findViewById(R.id.timer);
-        new CountDownTimer(6000, 1000) {
+    CountDownTimer timer = new CountDownTimer(6000, 1000) {
             public void onTick(long millisUntilFinished) {
+                TextView timeView = (TextView) findViewById(R.id.timer);
                 timeView.setText("0" + millisUntilFinished/1000 + ":00");
             }
 
@@ -137,9 +135,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(GameActivity.this, "Failed to answer in time", duration);
                 toast.show();
+                createQuestion(_score);
+                _isrunning = false;
             }
-        }.start();
-    }
+        };
 
     public void onClickImage(View view) {
         Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
