@@ -31,6 +31,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     int _imageId;
     String _answer;
     boolean _running = true;
+    CountDownTimer _myTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +47,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         three.setOnClickListener(this);
         Button four = (Button) findViewById(R.id.option4);
         four.setOnClickListener(this);
-
     }
 
     public void createQuestion(int score) {
+        TextView scoreBoard = (TextView) findViewById(R.id.score);
+        scoreBoard.setText("Score: " + Integer.toString(score));
         HashMap<String, Integer> data = ImageData.Data();
         Random rand = new Random();
-        TextView scoreBoard = (TextView) findViewById(R.id.score);
-        scoreBoard.setText(score);
 
         HashSet<Integer> fourNumbers = new HashSet<>();
         while (fourNumbers.size() != 4) {
@@ -119,19 +119,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (id == _answerButton.getId()) {
             _score ++;
             createQuestion(_score);
-
         } else {
-            CharSequence text = "Wrong Answer";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(GameActivity.this, text, duration);
+            Toast toast = Toast.makeText(GameActivity.this, "Wrong Answer", Toast.LENGTH_SHORT);
             toast.show();
             createQuestion(_score);
         }
     }
 
-    private CountDownTimer runTimer() {
+    private void runTimer() {
         final TextView timeView = (TextView) findViewById(R.id.timer);
-        CountDownTimer timer = new CountDownTimer(6000, 1000) {
+        new CountDownTimer(6000, 1000) {
             public void onTick(long millisUntilFinished) {
                 timeView.setText("0" + millisUntilFinished/1000 + ":00");
             }
@@ -141,9 +138,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 Toast toast = Toast.makeText(GameActivity.this, "Failed to answer in time", duration);
                 toast.show();
             }
-        };
-
-        return timer;
+        }.start();
     }
 
     public void onClickImage(View view) {
