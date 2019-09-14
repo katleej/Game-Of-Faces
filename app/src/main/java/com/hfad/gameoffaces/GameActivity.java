@@ -169,9 +169,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        CharSequence text = "Game Ended";
+                        CharSequence text = "Game Ended: Final Score is ";
                         int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(GameActivity.this, text, duration);
+                        Toast toast = Toast.makeText(GameActivity.this, text + Integer.toString(_score), duration);
                         toast.show();
                         Intent intent = new Intent(GameActivity.this, MainActivity.class);
                         startActivity(intent);

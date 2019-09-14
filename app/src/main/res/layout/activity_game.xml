@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity"
     android:orientation="vertical"
+    android:background="@android:color/background_light"
     android:padding="8dp">
 
     <LinearLayout
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
+        android:background="@color/colorAccent"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
@@ -27,6 +29,7 @@
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16dp"
             android:text="Score: 0"
             android:layout_weight="1"
             android:gravity="left"/>
@@ -35,6 +38,7 @@
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16dp"
             android:text="00:00"
             android:layout_weight="1"
             android:gravity="right" />
