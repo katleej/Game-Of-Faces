@@ -1,7 +1,10 @@
 package com.hfad.gameoffaces;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,26 +19,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
-public class GameActivity extends AppCompatActivity{
+public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
-    int score = 0;
+    int _score = 0;
+    int _seconds = 5;
     Button _answerButton;
     int _imageId;
     String _answer;
+    boolean _running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        createQuestion();
+        createQuestion(0);
+
+        Button one = (Button) findViewById(R.id.option1);
+        one.setOnClickListener(this); // calling onClick() method
+        Button two = (Button) findViewById(R.id.option2);
+        two.setOnClickListener(this);
+        Button three = (Button) findViewById(R.id.option3);
+        three.setOnClickListener(this);
+        Button four = (Button) findViewById(R.id.option4);
+        four.setOnClickListener(this);
+
     }
 
-    public void createQuestion() {
+    public void createQuestion(int score) {
         HashMap<String, Integer> data = ImageData.Data();
         Random rand = new Random();
+        TextView scoreBoard = (TextView) findViewById(R.id.score);
+        scoreBoard.setText(score);
+
         HashSet<Integer> fourNumbers = new HashSet<>();
         while (fourNumbers.size() != 4) {
             fourNumbers.add(rand.nextInt(data.size()));
@@ -76,15 +95,19 @@ public class GameActivity extends AppCompatActivity{
 
                 case R.id.option1:
                     onClickHelper(R.id.option1);
+                    break;
 
                 case R.id.option2:
                     onClickHelper(R.id.option2);
+                    break;
 
                 case R.id.option3:
                     onClickHelper(R.id.option3);
+                    break;
 
                 case R.id.option4:
                     onClickHelper(R.id.option4);
+                    break;
 
                 default:
                     break;
@@ -94,17 +117,33 @@ public class GameActivity extends AppCompatActivity{
 
     public void onClickHelper(int id) {
         if (id == _answerButton.getId()) {
-//            score += 1;
-//            TextView textScore = (TextView) findViewById(R.id.score);
-//            textScore.setText("Score: " + Integer.toString(score));
-            createQuestion();
+            _score ++;
+            createQuestion(_score);
+
         } else {
             CharSequence text = "Wrong Answer";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(GameActivity.this, text, duration);
             toast.show();
-            createQuestion();
+            createQuestion(_score);
         }
+    }
+
+    private CountDownTimer runTimer() {
+        final TextView timeView = (TextView) findViewById(R.id.timer);
+        CountDownTimer timer = new CountDownTimer(6000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                timeView.setText("0" + millisUntilFinished/1000 + ":00");
+            }
+
+            public void onFinish() {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(GameActivity.this, "Failed to answer in time", duration);
+                toast.show();
+            }
+        };
+
+        return timer;
     }
 
     public void onClickImage(View view) {

@@ -12,6 +12,8 @@
         android:id="@+id/scorelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
@@ -30,11 +32,13 @@
             android:gravity="left"/>
 
         <TextView
+            android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
             android:layout_weight="1"
-            android:gravity="right" />t
+            android:gravity="right" />
+
     </LinearLayout>
 
 
@@ -55,7 +59,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:src="@drawable/aayushtyagi"
             android:clickable="true"
             android:onClick="onClickImage"/>
@@ -63,7 +67,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
